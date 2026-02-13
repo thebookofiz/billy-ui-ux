@@ -1,0 +1,14 @@
+{
+  "id": "e8e76007-11ba-41f3-995e-cc5a5cd038d5",
+  "status": "running",
+  "startedAt": "2026-02-13T14:05:17.769Z",
+  "updatedAt": "2026-02-13T14:05:17.769Z",
+  "agentPlugin": "claude",
+  "trackerPlugin": "json",
+  "prdPath": "./tasks/prd.json",
+  "currentIteration": 0,
+  "maxIterations": 0,
+  "totalTasks": 0,
+  "tasksCompleted": 0,
+  "cwd": "/Users/billy/Desktop/intuition/repos/billy-ui-ux"
+}
