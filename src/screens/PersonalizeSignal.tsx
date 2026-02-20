@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const STEPS = [
@@ -34,13 +34,20 @@ export function PersonalizeSignal() {
     }
   }, [navigate])
 
-  // Signal wave bars for the animation
-  const bars = Array.from({ length: 24 }, (_, i) => {
-    const center = 12
-    const dist = Math.abs(i - center)
-    const base = Math.max(0.15, 1 - dist * 0.08)
-    return base * (0.6 + Math.random() * 0.4)
-  })
+  // Signal wave bars for the animation (deterministic)
+  const bars = useMemo(() => {
+    // Simple seeded random for deterministic wave
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed * 9999) * 10000
+      return x - Math.floor(x)
+    }
+    return Array.from({ length: 24 }, (_, i) => {
+      const center = 12
+      const dist = Math.abs(i - center)
+      const base = Math.max(0.15, 1 - dist * 0.08)
+      return base * (0.6 + seededRandom(i) * 0.4)
+    })
+  }, [])
 
   return (
     <div className="flex-1 flex flex-col px-6 pt-6 pb-6">

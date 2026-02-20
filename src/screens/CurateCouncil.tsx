@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { ProgressBar } from '../components/ProgressBar'
@@ -19,6 +19,18 @@ export function CurateCouncil() {
   }
 
   const vouchedCount = Object.values(vouched).filter(Boolean).length
+
+  // Simple seeded random for deterministic wave
+  const seededRandom = (seed: number) => {
+    const x = Math.sin(seed * 9999) * 10000
+    return x - Math.floor(x)
+  }
+
+  // Signal wave bars - recalculate when vouchedCount changes
+  const waveBars = useMemo(() => Array.from({ length: 60 }, (_, i) => ({
+    key: i,
+    height: seededRandom(i) * (vouchedCount > 0 ? 80 : 20) + 10
+  })), [vouchedCount])
 
   return (
     <div className="flex-1 flex flex-col px-6 pt-6 pb-6">
@@ -96,16 +108,13 @@ export function CurateCouncil() {
       {/* Signal wave preview */}
       <div className="bg-black h-16 mb-4 flex items-center justify-center overflow-hidden">
         <div className="flex items-center gap-[1px]">
-          {Array.from({ length: 60 }, (_, i) => {
-            const h = Math.random() * (vouchedCount > 0 ? 80 : 20) + 10
-            return (
-              <div
-                key={i}
-                className="w-[2px] bg-accent-green/70 shrink-0"
-                style={{ height: `${h}%` }}
-              />
-            )
-          })}
+          {waveBars.map(({ key, height }) => (
+            <div
+              key={key}
+              className="w-[2px] bg-accent-green/70 shrink-0"
+              style={{ height: `${height}%` }}
+            />
+          ))}
         </div>
       </div>
 

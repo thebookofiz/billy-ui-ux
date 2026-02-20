@@ -5,13 +5,19 @@ interface SignalWaveProps {
   className?: string
 }
 
+// Simple seeded random for deterministic wave generation
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed * 9999) * 10000
+  return x - Math.floor(x)
+}
+
 export function SignalWave({ label = 'SIGNAL_V.01', className = '' }: SignalWaveProps) {
   const bars = useMemo(() => {
     const count = 80
     return Array.from({ length: count }, (_, i) => {
       const x = i / count
       const center = Math.exp(-((x - 0.5) ** 2) / 0.02)
-      const noise = Math.random() * 0.3
+      const noise = seededRandom(i) * 0.3
       return Math.max(0.05, center * 0.9 + noise * center)
     })
   }, [])
