@@ -204,13 +204,21 @@ export function ValueProps() {
       <div className="mt-auto">
         {slide.customButton ? (
           <Button variant={slide.customButton.variant} arrow onClick={() => {
-            isLast ? navigate('/onboarding/intent') : setCurrent(current + 1)
+            if (isLast) {
+              navigate('/onboarding/intent')
+            } else {
+              setCurrent(current + 1)
+            }
           }}>
             {slide.customButton.label}
           </Button>
         ) : (
           <Button arrow onClick={() => {
-            isLast ? navigate('/onboarding/intent') : setCurrent(current + 1)
+            if (isLast) {
+              navigate('/onboarding/intent')
+            } else {
+              setCurrent(current + 1)
+            }
           }}>
             Continue
           </Button>
